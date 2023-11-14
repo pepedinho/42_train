@@ -3,15 +3,8 @@
 
 unsigned char reverse_bits(unsigned char octet)
 {
-
-        if (octet < 0 || octet > 255)
-    {
-        write(STDOUT_FILENO, "Error: Invalid octet\n", 22);
-        return 0;
-    }
-
     unsigned char reversed = 0;
-    int i = 0; 
+    int i = 0;
 
     while (i < 8)
     {
@@ -19,7 +12,7 @@ unsigned char reverse_bits(unsigned char octet)
         octet >>= 1;
         i++;
     }
-    
+
     return reversed;
 }
 
@@ -36,27 +29,19 @@ int poww(int a, int pw)
     return result;
 }
 
-int main(int argc, char const *argv[])
+
+void print_byte(char oct)
 {
-    char oct = argv[argc - 1][0];
 
     int base = 7, i = 0;
-
-    char rev_tab[9];
 
     unsigned char result = '\0';
     
     int buffer = 0;
-    
-    write(STDOUT_FILENO, &argv[argc - 1][0], 1);
-    write(STDOUT_FILENO, "\n", 1);
-    write(STDOUT_FILENO, "\n", 1);
-    write(STDOUT_FILENO, "_____________", 13);
-    write(STDOUT_FILENO, "\n", 1);
-    write(STDOUT_FILENO, "  ", 2);
 
     while (base >= 0)
     {
+        
 
         buffer = 1 << base;
         if(oct & buffer)
@@ -70,21 +55,40 @@ int main(int argc, char const *argv[])
         }
         
         write(STDOUT_FILENO, &result, 1);
-        rev_tab[i] = reverse_bits(oct);
         i++;
         base--;
     }
-    rev_tab[i] = '\0';
+}
 
+int main(int argc, char const *argv[])
+{
+    char oct = argv[argc - 1][0];
+
+    write(STDOUT_FILENO, "\n", 1);
+    write(STDOUT_FILENO, "  BYTE : ", 9);
+    write(STDOUT_FILENO, &argv[argc - 1][0], 1);
+    write(STDOUT_FILENO, "\n", 1);
+    write(STDOUT_FILENO, "_____________", 13);
+    write(STDOUT_FILENO, "\n", 1);
+    write(STDOUT_FILENO, "  ", 2);
+
+    print_byte(oct);
+    
+
+    write(STDOUT_FILENO, "\n", 1);
     write(STDOUT_FILENO, "\n", 1);
     write(STDOUT_FILENO, "     ||     ", 13);
     write(STDOUT_FILENO, "\n", 1);
     write(STDOUT_FILENO, "     \\/     ", 13);
     write(STDOUT_FILENO, "\n", 1);
-    for (i = 0; i < 8; i++)
-    {
-        write(STDOUT_FILENO, &rev_tab[i], 1);
-    }
+
+    //char revers = reverse_bits(oct);
+
+    //write(STDOUT_FILENO, &revers, 1);
+    write(STDOUT_FILENO, "\n", 1);
+    write(STDOUT_FILENO, "  ", 2);
+    print_byte(reverse_bits(oct));
+    
 
     
     return 0;
