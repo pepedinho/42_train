@@ -4,7 +4,7 @@
 
 int main(int argc, char const *argv[])
 {
-    int i = 1, taille = 1, index = 0;
+    int i = 2, taille = 1, index = 0;
 
     double result = 0;
     int running = 0;
@@ -22,11 +22,10 @@ int main(int argc, char const *argv[])
             taille++;
             int *nouveautableau = (int*)malloc(taille * sizeof(int));
 
-            // Vérification si l'allocation a réussi
             if (nouveautableau == NULL) {
                 printf("Erreur d'allocation de mémoire\n");
                 free(tab);
-                return 1;  // Quitter le programme en cas d'erreur
+                return 1;
             }
 
             int j = 0;
@@ -47,7 +46,7 @@ int main(int argc, char const *argv[])
         i++;
     }
     
-    int k = 1;
+    int k = 2;
 
     int result2 = 0, running2 = 0;
     int resSize = 1;
@@ -55,12 +54,11 @@ int main(int argc, char const *argv[])
     index = 0;
     int value = atoi(argv[argc - 1]);
 
-    while (k < taille)
+    while (k < value)
     {   
         result2 = value % k;
         running2 = value / k;
         
-
         if(result2 == 0 && running2 !=0)
         {
             int l = 0;
@@ -71,11 +69,10 @@ int main(int argc, char const *argv[])
                     resSize++;
                     int *resTab2 = (int*)malloc(resSize * sizeof(int));
 
-                    // Vérification si l'allocation a réussi
                     if (resTab2 == NULL) {
                         printf("Erreur d'allocation de mémoire\n");
                         free(resTab);
-                        return 1;  // Quitter le programme en cas d'erreur
+                        return 1; 
                     }
                     int j = 0;
                     while (j < taille)
@@ -97,7 +94,7 @@ int main(int argc, char const *argv[])
         }
         k++;
     }
-
+    
     int m = 0;
     int max = resTab[0];
 
