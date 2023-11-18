@@ -39,7 +39,7 @@ int main(int argc, char const *argv[])
     {
         if (argv[argc - 1][k] == ' ' && buff > 0)
         {
-            nbChar[l] = buff;
+            nbChar[l] = buff + 1;
             printf("debug : nbChar[%d] = %d \n", l, nbChar[l]);
             buff = 0;
             l++;
@@ -103,12 +103,12 @@ int main(int argc, char const *argv[])
 
     char **tab = (char**)malloc(nbMot * sizeof(char*));
     int i = 0;
-    while (i < nbMot)
+    while (i <= nbMot)
     {
-        if(i == nbMot - 1)
+        if(i == nbMot)
         {
             tab[i] = (char*)malloc((nbChar[0] + 1) * sizeof(char));
-            printf("/!\\debbug alloc (last word) : nbChar[%d + 1] = %d\n", i, nbChar[0] + 1 );
+            printf("/!\\debbug alloc (last word) : nbChar[0] = %d\n", nbChar[0] + 1 );
         }
         else
         {
@@ -120,6 +120,7 @@ int main(int argc, char const *argv[])
 
     i = 0, j = 0;
 
+    int isComplet = 0;
 
     j = 0;
     char *buffer = malloc(sizeof(char) * nbChar[0]);
@@ -130,10 +131,11 @@ int main(int argc, char const *argv[])
         int index = 0;
         if (i == 0)
         {
-            while (index < nbChar[0] && argv[argc - 1][j] != ' ' && argv[argc - 1][j] != '\0') 
+            while (nbChar[1] > nbChar[0] ? index < nbChar[1] : index < nbChar[0] && argv[argc - 1][j] != ' ' && argv[argc - 1][j] != '\0') 
             {
                 printf("    debug if : %c\n", argv[argc - 1][j + nbChar[0]]);
                 buffer[index] = argv[argc - 1][j];
+                printf("debug : beuffer[%d] = %c\n", index, argv[argc - 1][j]);
                 tab[i][index] = argv[argc - 1][j + nbChar[0]];
                 printf("        (if)tab[%d][index(%d)] = argv[argc - 1][%d + %d](%c)(+1 = '%c')\n", i, index, j, nbChar[0], argv[argc - 1][j + nbChar[0]], argv[argc - 1][j + nbChar[0] + 1]);
                 j++;
@@ -144,13 +146,37 @@ int main(int argc, char const *argv[])
             tab[0][index] = '\0';
         }
         else if (i == nbMot - 1)
-        {
-            printf("    debug(else if) : index = %d, nbChar[%d + 1] = %d,buffer[%d] = %c\n", index, i, nbChar[i], index, buffer[index] );
-            while (index < nbChar[i] && buffer[index] != '\0') 
+        {   
+            if (tab[nbMot] == NULL)
             {
+                printf("tableau vide\n");
+            }
+            else
+            {
+                printf("debug tab[nbMot (%d)][1] = %c", nbMot, tab[nbMot][1]);
+            }
+            
+            
+            printf("    debug(else if) : index = %d, nbChar[%d + 1] = %d,buffer[%d] = %c, argv[argc - 1][j + nbChar[0]] = [%c]\n", index, i, nbChar[i + 1] + 1, index, buffer[index], argv[argc - 1][j + nbChar[0]] );
+            while (index < nbChar[i + 1] + 1 && argv[argc - 1][j + nbChar[0]] != '\0') 
+            {
+                printf("/!\\ ca tourne /!\\ \n");
+                if (isComplet == 0)
+                {
+                    printf("DEBUG CONDITION ACTIVER\n");
+                    int c = 0;
+                    while (buffer[c] != '\0')
+                    {
+                        printf("    debug last word : nbChar = %d \n", nbChar[nbMot]);
+                        tab[nbMot][c] = buffer[c];
+                        c++;
+                    }
+                    tab[nbMot][c] = '\0';
+                    isComplet = 1;
+                }
                 printf("debug if i(%d)\n", i);
-                tab[i][index] = buffer[index];
-                printf("DEBUG BUFFER : %c", buffer[index]);
+                tab[i][index] = argv[argc - 1][j + nbChar[0]];
+                printf("DEBUG BUFFER : %c\n", buffer[index]);
                 j++;
                 index++;
             }
@@ -193,17 +219,50 @@ int main(int argc, char const *argv[])
     j = 0;
 
 
-    while (i < nbMot)
+
+    while (i <= nbMot)
     {
         j = 0;
-        while (tab[i][j] != 0)
+        printf("(%d)", i);
+        if (i == nbMot)
         {
-            printf("%c", tab[i][j]);
-            j++;
+            while (j < nbChar[0] + 1)
+            {
+                printf("%c",tab[i][j]);
+                j++;
+            }
         }
-        printf(" ");
+        else
+        {
+            while (j < nbChar[i + 1])
+            {
+                printf("%c",tab[i][j]);
+                j++;
+            }
+            printf(" ");
+        }
+        
         i++;
     }
+
+    i = 0;
+    
+    printf("\n");
+    while (i <= nbMot)
+    {
+        if (i == nbMot)
+        {
+            printf("(mot[%d / 0] = %d caractères)", i , nbChar[0] + 1);
+        }
+        else
+        {
+            printf("(mot[%d] = %d caractères)", i , nbChar[i + 1] + 1);
+        }
+        
+        
+        i++;
+    }
+    
 
     // while (tab[i][j] != '\0')
     // {
