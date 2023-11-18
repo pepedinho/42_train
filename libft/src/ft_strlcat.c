@@ -3,7 +3,6 @@
 char *ft_strlcat(char *dest, char *src, unsigned int size)
 {
     unsigned int dest_len = ft_strlen(dest);
-    unsigned int src_len = ft_strlen(src);
 
     if (size <= dest_len)
         return dest;

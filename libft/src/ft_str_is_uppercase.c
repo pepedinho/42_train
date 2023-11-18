@@ -15,8 +15,8 @@ int ft_str_is_uppercase(char *str)
         }
         else
         {
-            printf("car : %c, i : %d\n", str[i], i);
             return 0;
         }
     }
+    return 0;
 }

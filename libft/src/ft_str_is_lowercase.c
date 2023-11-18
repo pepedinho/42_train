@@ -1,4 +1,5 @@
 #include "../include/libft.h"
+#include <unistd.h>
 //La fonction renvoie 1 si tous les caractères de la chaîne sont des minuscules, sinon elle renvoie 0.
 int ft_str_is_lowercase(char *str)
 {
@@ -16,8 +17,8 @@ int ft_str_is_lowercase(char *str)
         }
         else
         {
-            printf("car : %c, i : %d\n", str[i], i);
             return 0;
         }
     }
+    return 0;
 }

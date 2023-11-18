@@ -6,4 +6,5 @@ int ft_toupper(int car)
   {
     return car - 32;
   }
+  return car;
 }

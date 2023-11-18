@@ -26,7 +26,7 @@ int ft_strlen(char *str);
 char *ft_strlowcase(char *str);
 char *ft_strncat(char *dest, char *src, int nb);
 int ft_strncmp(char *s1, char *s2, unsigned int n);
-char *ft_strncpy(char *dest, char *src, unsigned int n);
+char *ft_strncpy(char *dest, char *src, int size);
 char *ft_strrev(char *str);
 char *ft_strstr(char *str, char *to_find);
 char *ft_strupcase(char *str);

@@ -4,7 +4,6 @@ int ft_strcmp(char *s1, char *s2)
 {
   int i = 0;
   int len1 = ft_strlen(s1);
-  int len2 = ft_strlen(s2);
 
   while (i < len1)
   {

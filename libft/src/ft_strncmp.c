@@ -3,7 +3,7 @@
 // fonction qui compare une chaine de caractère jusqua n caractère
 int ft_strncmp(char *s1, char *s2, unsigned int n)
 {
-  int i = 0;
+  unsigned int i = 0;
 
   while (i < n)
   {

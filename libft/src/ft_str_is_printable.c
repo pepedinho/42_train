@@ -22,4 +22,5 @@ int ft_str_is_printable(char *str)
             return 0;
         }
     }
+    return 0;
 }

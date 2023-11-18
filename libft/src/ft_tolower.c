@@ -6,4 +6,5 @@ int ft_tolower(int car)
   {
     return car + 32;
   }
+  return car;
 }
