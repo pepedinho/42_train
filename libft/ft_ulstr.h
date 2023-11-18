@@ -1,1 +1,0 @@
-void ulstr(char *str);
