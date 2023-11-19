@@ -27,25 +27,15 @@ void print_memory(const void *addr, size_t size)
                 if (isprint(p[i + j]))
                 {
                     write(1, (char *)&p[i + j], 1);
-                }
-                else
-                {
+                }else{
                     write(1, ".", 1);
                 }
                 j++;
             }
             write(1, "\n", 1);
-        }
-        else if ((i + 1) % space_length == 0)
-        {
+        }else if ((i + 1) % space_length == 0){
             write(1, " ", 1);
         }
-        
-        
-
-        // if (i % 2 != 0)
-        // {
-        // }
         i++;
     }
     write(1, "\n", 1);
