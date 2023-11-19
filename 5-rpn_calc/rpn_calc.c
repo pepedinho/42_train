@@ -101,6 +101,19 @@ int rpn_cal(char *str)
         }
         else if (str[i] == ' ')//si le caractere est un espace on on verifie si nou avon deja les operateur, si c'est le cas on proccede au calcul du resultat temporaire
         {   
+            if (step > 0)
+            {
+                op = 1;
+            }
+            else
+            {
+                op++;
+            }
+        }
+        else if (str[i] == '*' || str[i] == '+' || str[i] == '/' || str[i] == '-')
+        {
+            operator = str[i]; 
+
             if (op == 2 && step == 0)
             {
 
@@ -120,11 +133,6 @@ int rpn_cal(char *str)
                 op = 0;
                 ft_reset(tab[0], tab[1]);
             }
-            op++;
-        }
-        else if (str[i] == '*' || str[i] == '+' || str[i] == '/' || str[i] == '-')
-        {
-            operator = str[i]; 
         }
         else
         {
