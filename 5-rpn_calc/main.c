@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    char test[] = "1 2 * 3 * 4 +";
+    char test[] = "2 7 * 3 * 2 /";
 
     int result = rpn_cal(test);
 

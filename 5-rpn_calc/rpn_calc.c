@@ -61,6 +61,7 @@ int rpn_cal(char *str)
 
     int op = 0;//represente l'index de l'operande contenue dans tab
     int res_count = 0;//index du tableau de resultta
+    int spy = 0;
     int step = 0; //indicateur de l'etape actuel
     //boucle qui rempli le buffer et qui decoupe la chaine en operateur
     while (str[i] != '\0')
@@ -78,6 +79,7 @@ int rpn_cal(char *str)
                 
                 
                 tab[op] = atoi(buffer);
+                spy++;
                 int count = 0;
                 printf("buffer = [");
                 while (buffer[count] != '\0')
@@ -112,6 +114,7 @@ int rpn_cal(char *str)
         }
         else if (str[i] == '*' || str[i] == '+' || str[i] == '/' || str[i] == '-')
         {
+            spy = 0;
             operator = str[i]; 
 
             if (op == 2 && step == 0)
@@ -139,6 +142,13 @@ int rpn_cal(char *str)
             printf("Error!");
             return 1;
         }
+        
+        // if (spy >= 2  && operator == '\0')
+        // {
+        //     printf("Error");
+        //     return 1;
+        // }
+
         
         i++;
     }
