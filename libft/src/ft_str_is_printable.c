@@ -7,7 +7,7 @@ int ft_str_is_printable(char *str)
 
     while (i < ft_strlen(str))
     {
-        if (str[i] >= 32 && str[i] <= 126)
+        if (ft_isprint(str[i]))
         {
             i++;
         }

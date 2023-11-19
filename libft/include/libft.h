@@ -1,3 +1,7 @@
+#ifndef LIBFT
+#define LIBFT
+#include <unistd.h>
+
 int ft_atoi(char *str);
 void ft_div_mod(int a, int b, int *div, int *mod);
 int ft_fibonacci(int index);
@@ -32,6 +36,10 @@ char *ft_strstr(char *str, char *to_find);
 char *ft_strupcase(char *str);
 void ft_swap(int *a, int *b);
 int ft_tolower(int car);
+int ft_isprint(int car);
 int ft_toupper(int car);
 void ulstr(char *str);
 void ft_ultimate_div_mod(int *a, int *b);
+void print_memory(const void *addr, size_t size);
+
+#endif
