@@ -8,10 +8,10 @@
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-g",
-                "${workspaceFolder}/5-rpn_calc/main.c", // Ajoutez le chemin vers main.c
-                "${workspaceFolder}/5-rpn_calc/rpn_calc.c", // Ajoutez le chemin vers rpn_calc.c
+                "${workspaceFolder}/5-brackets/brackets.c", // Ajoutez le chemin vers main.c
+                //"${workspaceFolder}/5-rpn_calc/rpn_calc.c", // Ajoutez le chemin vers rpn_calc.c
                 "-o",
-                "${workspaceFolder}/5-rpn_calc/output" // Nom de l'exécutable
+                "${workspaceFolder}/5-rpn_calc/output", // Nom de l'exécutable
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
