@@ -55,7 +55,7 @@ int rpn_cal(char *str)
     nb_result++;
     char operator = '\0';
 
-    int *resutat = malloc(sizeof(int) * nb_result);// tableau pour stocker les resultat intermediaire et le resultat final
+    int *resultat = (int *)malloc(nb_result * sizeof(int));// tableau pour stocker les resultat intermediaire et le resultat final
     char *buffer = malloc(sizeof(char) * len);//buffer pour stocker les les chiffres composant le nombre
     int index = 0;
 
@@ -65,6 +65,7 @@ int rpn_cal(char *str)
     //boucle qui rempli le buffer et qui decoupe la chaine en operateur
     while (str[i] != '\0')
     {
+
         if (str[i] >= '0' && str[i] <= '9' && str[i +1] == ' ')
         {
             buffer[index] = str[i];
@@ -103,7 +104,7 @@ int rpn_cal(char *str)
             if (op == 2 && step == 0)
             {
 
-                resutat[res_count] = do_calcul(tab[op - 1], tab[op], operator);
+                resultat[res_count] = do_calcul(tab[0], tab[1], operator);
                 printf(" l80 (etapes : %d): resultat[%d] = %d = (%d %c  %d)operator = '%c' \n", step,res_count, do_calcul(tab[op - 2], tab[op - 1], operator), tab[op - 2], operator, tab[op - 1], operator);
                 res_count++;
                 step++;
@@ -112,8 +113,8 @@ int rpn_cal(char *str)
             }
             else if (op == 1 && step > 0)
             {
-                resutat[res_count] = do_calcul(resutat[res_count - 1], tab[0], operator);
-                printf(" l88 (etapes : %d): resultat[%d] = %d = (res[res_count-1(%d)]%d %c  %d)operator = '%c' \n", step, res_count, do_calcul(resutat[res_count - 1], tab[0], operator), res_count - 1, resutat[res_count], operator, tab[0], operator);
+                resultat[res_count] = do_calcul(resultat[res_count - 1], tab[1], operator);
+                printf(" l88 (etapes : %d): resultat[%d] = %d = (res[res_count-1(%d)]%d %c  %d)operator = '%c' \n", step, res_count, do_calcul(resultat[res_count - 1], tab[0], operator), res_count - 1, resultat[res_count], operator, tab[0], operator);
                 res_count++;
                 step++;
                 op = 0;
@@ -135,7 +136,7 @@ int rpn_cal(char *str)
     }
     
     //free(buffer);
-    int res = resutat[res_count - 1];
-    free(resutat);
+    int res = resultat[res_count - 1];
+    free(resultat);
     return res;
 }
