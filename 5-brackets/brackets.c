@@ -1,6 +1,6 @@
 #include <unistd.h>
 
-int ft_strlen(char *str)
+int ft_strlen(const char *str)
 {
     int i = 0;
 
@@ -10,7 +10,7 @@ int ft_strlen(char *str)
     return i;
 }
 
-int main(void)
+int main(int argc, char const *argv[])
 {
     int i = 0; 
     int open_par = 0;
@@ -22,28 +22,28 @@ int main(void)
 
     int temp_open = 0;
     int temp_close = 0;
-    char str[] = "{(([]))}";
-    int len = ft_strlen(str);
+    //char str[] = "{(([]))}";
+    int len = ft_strlen(argv[argc - 1]);
     
     int open = open_bracket + open_cbrace + open_par;
     int close = close_bracket + close_cbrace + close_par;
 
-    while (str[i] != '\0' )
+    while (argv[argc - 1][i] != '\0' )
     {
         if (open != close)
         {
             int j = i - 1;
             int reg = j;
-            char buf = str[j];
+            char buf = argv[argc - 1][j];
             while (j < len - reg)
             {
-               if (str[j] == '(' || str[j] == '{' || str[j] == '[')
+               if (argv[argc - 1][j] == '(' || argv[argc - 1][j] == '{' || argv[argc - 1][j] == '[')
                {
-                    if (str[j] == '(')
+                    if (argv[argc - 1][j] == '(')
                     {
                         open_par++;
                     }
-                    else if (str[j] == '{')
+                    else if (argv[argc - 1][j] == '{')
                     {
                         open_cbrace++;
                     }
@@ -53,13 +53,13 @@ int main(void)
                     }
                     temp_open++;
                }
-               else if (str[j] == ')' || str[j] == '}' || str[j] == ']')
+               else if (argv[argc - 1][j] == ')' || argv[argc - 1][j] == '}' || argv[argc - 1][j] == ']')
                {
-                    if (str[j] == ')')
+                    if (argv[argc - 1][j] == ')')
                     {
                         close_par++;
                     }
-                    else if (str[j] == '}')
+                    else if (argv[argc - 1][j] == '}')
                     {
                         close_cbrace++;
                     }
@@ -70,17 +70,17 @@ int main(void)
                     temp_close++;
                }
 
-               if (buf == '(' && str[j] == ')' && temp_open != temp_close) //a finir !!!
+               if (buf == '(' && argv[argc - 1][j] == ')' && temp_open != temp_close) //a finir !!!
                {
                     write(1, "Error", 5);
                     return 0;
                }
-               else if (buf == '[' && str[j] == ']' && temp_open != temp_close)
+               else if (buf == '[' && argv[argc - 1][j] == ']' && temp_open != temp_close)
                {
                     write(1, "Error", 5);
                     return 0;
                }
-               else if (buf == '{' && str[j] == '}' && temp_open != temp_close)
+               else if (buf == '{' && argv[argc - 1][j] == '}' && temp_open != temp_close)
                {
                     write(1, "Error", 5);
                     return 0;
@@ -135,17 +135,17 @@ int main(void)
             
         }
 
-        if (str[i] == '(' || str[i] == '{' || str[i] == '[')
+        if (argv[argc - 1][i] == '(' || argv[argc - 1][i] == '{' || argv[argc - 1][i] == '[')
         {
             open++;
         }
-        else if (str[i] == ')' || str[i] == '}' || str[i] == ']')
+        else if (argv[argc - 1][i] == ')' || argv[argc - 1][i] == '}' || argv[argc - 1][i] == ']')
         {
             close = open;
         }
 
 
-        if ((str[i - 1] == '(' && str[i] == ')') || (str[i - 1] == '[' && str[i] == ']') || (str[i - 1] == '{' && str[i] == '}'))
+        if ((argv[argc - 1][i - 1] == '(' && argv[argc - 1][i] == ')') || (argv[argc - 1][i - 1] == '[' && argv[argc - 1][i] == ']') || (argv[argc - 1][i - 1] == '{' && argv[argc - 1][i] == '}'))
         {
             if (open == close)
             {
