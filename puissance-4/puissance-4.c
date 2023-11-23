@@ -20,69 +20,11 @@ typedef struct
 } GameState;
 
 
-int choose_move(int qTable[ROWS][COLS], int row, double epsilon)
-{
-    if ((double)rand() / RAND_MAX < epsilon) 
-    {
-        //choisire l'action au hasard
-        return rand() % COLS;
-    }
-    else
-    {
-        //chercher la meilleur action pour l'etat actuel dans la qTable
-        int best_move = 0;
-        for (int j = 0; j < COLS; j++)
-        {
-            if (qTable[row][j] < qTable[row][best_move])
-            {
-                best_move == j;
-            }
-        }
-        return best_move;
-    }
-}
-
-
-void sarsa(int qTable[ROWS][COLS])
-{
-
-    GameState state;
-
-    printf("Choisissez un signe 'X' ou 'O' : ");
-    scanf("%c", &state.player);
-    printf("\n");
-
-    StateAction action_state, new_action_state;
-    int action, new_action;
-    double reward;
-
-    action_state.row = 0;
-    action_state.col = choose_move(qTable, action_state.row, EPSILON);
-    action = action_state.row;
-
-    int run = 0;
-    while (run)
-    {
-
-        // Afficher le plateau initial
-        afficherPlateau(state.plateau);
-
-        put_a_token(plateau, action, player);
-
-        afficherPlateau(plateau);
-        if (check_win(plateau) != 0)
-        {
-            break;
-        }
-        player = player == 'X' ? 'O' : 'X';
-
-
-    }
-}
 
 // Fonction pour afficher le plateau
 void afficherPlateau(int plateau[ROWS][COLS]) {
     // Afficher les indices de colonnes
+    system("clear");
     for (int i = 0; i < COLS; ++i) {
         printf("%d ", i + 1);
     }
@@ -171,37 +113,136 @@ int put_a_token(int plateau[ROWS][COLS], int col, char player)
     return 1;
 }
 
-int main() {
 
-    char player = '\0';
-    int moove = 0;
+int choose_move(int qTable[ROWS][COLS], int row, double epsilon)
+{
+    if ((double)rand() / RAND_MAX < epsilon) 
+    {
+        //choisire l'action au hasard
+        return rand() % COLS;
+    }
+    else
+    {
+        //chercher la meilleur action pour l'etat actuel dans la qTable
+        int best_move = 0;
+        for (int j = 0; j < COLS; j++)
+        {
+            if (qTable[row][j] < qTable[row][best_move])
+            {
+                best_move = j;
+            }
+        }
+        return best_move;
+    }
+}
 
-    // Initialiser le plateau avec des zéros (pas de jeton)
-    int plateau[ROWS][COLS] = {0};
+void update_game_state(GameState *state, int col)
+{
+    put_a_token(state->plateau, col, state->player);
 
-    int run = 1;
+    state->player = (state->player == 'X') ? 'O' : 'X';
+}
+
+
+void sarsa(int qTable[ROWS][COLS])
+{
+
+    GameState state;
+
     printf("Choisissez un signe 'X' ou 'O' : ");
-    scanf("%c", &player);
+    scanf("%c", &state.player);
     printf("\n");
 
-    while (run)
+    StateAction action_state, new_action_state;
+    int action, new_action;
+    double reward;
+
+    action_state.row = 0;
+    action_state.col = choose_move(qTable, action_state.row, EPSILON);
+    action = action_state.row;
+
+    int run = 1;
+    int episode = 100, j = 0;
+    
+    while (j < episode)
     {
+        state.player = 'X';
+        action_state.row = 0;
+        action_state.col = choose_move(qTable, action_state.row, EPSILON);
+        action = action_state.col;
 
-        // Afficher le plateau initial
-        afficherPlateau(plateau);
-
-        printf("entrée une collone : ");
-        scanf("%d", &moove);
-
-        put_a_token(plateau, moove, player);
-
-        afficherPlateau(plateau);
-        if (check_win(plateau) != 0)
+        while (run)
         {
-            break;
+            // Afficher le plateau initial
+            afficherPlateau(state.plateau);
+
+            StateAction before_action = action_state;
+
+            update_game_state(&state, action);
+
+            afficherPlateau(state.plateau);
+
+            if (check_win(state.plateau) != 0)
+            {   
+                qTable[before_action.row][before_action.col] += ALPHA * (reward - qTable[before_action.row][before_action.col]);
+                reward = 1.0;
+                run = 0;
+                break;
+            }
+
+            // Choix de la prochaine action
+            new_action_state.row = 0; // Vous pouvez ajuster cela selon vos besoins
+            new_action_state.col = choose_move(qTable, new_action_state.row, EPSILON);
+            new_action = new_action_state.col;
+
+            // Mettre à jour la Q-table
+            qTable[before_action.row][before_action.col] += ALPHA * (qTable[action_state.row][new_action] - qTable[before_action.row][before_action.col]);
+
+            // Mettre à jour l'action courante et continuer la boucle
+            action_state = new_action_state;
+            action = new_action;
         }
-        player = player == 'X' ? 'O' : 'X';
+        run = 1;
+        printf("episode : %d", j);
+        j++;
     }
+    
+}
+
+int main() {
+
+    // char player = '\0';
+    // int moove = 0;
+
+    // // Initialiser le plateau avec des zéros (pas de jeton)
+    // int plateau[ROWS][COLS] = {0};
+
+    // int run = 1;
+    // printf("Choisissez un signe 'X' ou 'O' : ");
+    // scanf("%c", &player);
+    // printf("\n");
+
+    // while (run)
+    // {
+
+    //     Afficher le plateau initial
+    //     afficherPlateau(plateau);
+
+    //     printf("entrée une collone : ");
+    //     scanf("%d", &moove);
+
+    //     put_a_token(plateau, moove, player);
+
+    //     afficherPlateau(plateau);
+    //     if (check_win(plateau) != 0)
+    //     {
+    //         break;
+    //     }
+    //     player = player == 'X' ? 'O' : 'X';
+
+    // }
+    int qTable[ROWS][COLS] = {0};
+    sarsa(qTable);
 
     return 0;
 }
