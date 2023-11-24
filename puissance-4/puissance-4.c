@@ -21,6 +21,15 @@ typedef struct
 
 
 
+void reset_plateau(int plateau[ROWS][COLS])
+{
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+            plateau[i][j] = 0;
+        }
+    }
+}
+
 // Fonction pour afficher le plateau
 void afficherPlateau(int plateau[ROWS][COLS]) {
     // Afficher les indices de colonnes
@@ -89,6 +98,22 @@ int check_win(int plateau[ROWS][COLS])
         }
     }
 
+    int plateau_plein = 1;
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+            if (plateau[i][j] == 0) {
+                plateau_plein = 0;
+                break;
+            }
+        }
+    }
+
+    if (plateau_plein)
+    {
+        return 0;
+    }
+    
+
     return 0;  // Aucun joueur n'a encore gagné
     
 }
@@ -125,7 +150,7 @@ int choose_move(int qTable[ROWS][COLS], int row, double epsilon)
     {
         //chercher la meilleur action pour l'etat actuel dans la qTable
         int best_move = 0;
-        for (int j = 0; j < COLS; j++)
+        for (int j = 0; j <= COLS; j++)
         {
             if (qTable[row][j] < qTable[row][best_move])
             {
@@ -157,12 +182,10 @@ void sarsa(int qTable[ROWS][COLS])
     int action, new_action;
     double reward;
 
-    action_state.row = 0;
-    action_state.col = choose_move(qTable, action_state.row, EPSILON);
-    action = action_state.row;
-
     int run = 1;
-    int episode = 100, j = 0;
+    int episode = 5, j = 0;
+
+    int win = 0, loose = 0;
     
     while (j < episode)
     {
@@ -170,6 +193,7 @@ void sarsa(int qTable[ROWS][COLS])
         action_state.row = 0;
         action_state.col = choose_move(qTable, action_state.row, EPSILON);
         action = action_state.col;
+        
 
         while (run)
         {
@@ -184,6 +208,17 @@ void sarsa(int qTable[ROWS][COLS])
 
             if (check_win(state.plateau) != 0)
             {   
+
+                if (check_win(state.plateau) == 1)
+                {
+                    win++;
+                }
+                else if (check_win(state.plateau) == 2)
+                {
+                    loose++;
+                }
+                
+                
                 qTable[before_action.row][before_action.col] += ALPHA * (reward - qTable[before_action.row][before_action.col]);
                 reward = 1.0;
                 run = 0;
@@ -202,10 +237,13 @@ void sarsa(int qTable[ROWS][COLS])
             action_state = new_action_state;
             action = new_action;
         }
+        reset_plateau(state.plateau);
         run = 1;
-        printf("episode : %d", j);
         j++;
+        printf("episode : %d\n", j);
     }
+
+    printf("victoire : %d | defaite : %d", win, loose);
     
 }
 
