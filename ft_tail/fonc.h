@@ -1,0 +1,1 @@
+int ft_tail(int argc, char const *argv[]);
